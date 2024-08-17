@@ -13,6 +13,7 @@ import com.example.SpringBoot.reponsitory.RoleRepository;
 import com.example.SpringBoot.reponsitory.UserReponsitory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -36,16 +38,25 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     public UserResponse CreateUser(UserCreationRequest request){
 
-        if (userReponsitory.existsByUsername(request.getUsername())){
-            throw new ErrorCodeException(ErrorCode.USER_EXISTED);
-        }
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
-//        user.setRoles(roles);
-        return userMapper.toUserResponse(userReponsitory.save(user));
+        com.example.SpringBoot.entity.Role userRole = roleRepository.findById(Role.USER.name())
+                .orElseGet(()->{
+                    com.example.SpringBoot.entity.Role newRole = new com.example.SpringBoot.entity.Role();
+                    newRole.setName(Role.USER.name());
+                    return roleRepository.save(newRole);
+                });
+
+        HashSet<com.example.SpringBoot.entity.Role> roles = new HashSet<>();
+        roles.add(userRole);
+        user.setRoles(roles);
+        try {
+            user = userReponsitory.save(user);
+        }catch(DataIntegrityViolationException exception){
+            throw new ErrorCodeException(ErrorCode.USER_EXISTED);
+        }
+        return userMapper.toUserResponse(user);
     }
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public List<UserResponse> getUsers(){
