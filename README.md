@@ -38,17 +38,17 @@ password: admin
             "lastName": "aaaaaa",
             "dob": "1997-11-12"
    }  
-9.               DELETE http://localhost:8000/identity/users/{userId}
-10.                DELETE http://localhost:8000/identity/roles/{roleName}                                   
-11.                PUT    http://localhost:8000/identity/users/{userId}
+9.  DELETE http://localhost:8000/identity/users/{userId}
+10. DELETE http://localhost:8000/identity/roles/{roleName}                                   
+11. PUT    http://localhost:8000/identity/users/{userId}
    {
             "password": "admin",
             "firstName": "oOsaka",
             "lastName": "titan",
             "dob": "1991-11-12",
    }
- 12.           GET  http://localhost:8000/identity/users
- 13.           GET  http://localhost:8000/identity/users/{userId}
- 14.           GET  http://localhost:8000/identity/users/myinfo
- 15.           GET  http://localhost:8000/identity/roles
- 16.           GET  http://localhost:8000/identity/permissions
+12. GET  http://localhost:8000/identity/users
+13. GET  http://localhost:8000/identity/users/{userId}
+14. GET  http://localhost:8000/identity/users/myinfo
+15. GET  http://localhost:8000/identity/roles
+16. GET  http://localhost:8000/identity/permissions
