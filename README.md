@@ -2,32 +2,35 @@ test potman
 username: admin
 password: admin
 
-1. create Database:  codespring
-2. POST http://localhost:8000/identity/auth/token  {"username": "admin","password": "admin"} (Login)
+1. create Database:  codespring   
+2. POST http://localhost:8000/identity/auth/token       (Login)
+   {
+    "username": "admin","password": "admin"
+   } 
 3. POST http://localhost:8000/identity/auth/logout
    {
             "token": "aofdgidl;daswa....."
    }
-   POST http://localhost:8000/identity/permissions
+4.  POST http://localhost:8000/identity/permissions
    {
             "name": "CREATE_DATA",
             "description": "CREATE_DATA"
    }
-   POST http://localhost:8000/identity/roles
+5.  POST http://localhost:8000/identity/roles
    {
             "name": "ADMIN",
             "description": "ADMIN",
             "permissions":["CREATE_DATA"]
    }
-   http://localhost:8000/identity/auth/refresh
+6. POST http://localhost:8000/identity/auth/refresh
    {
     "token": "asiouahg..."
    }
-   http://localhost:8000/identity/auth/introspect
+7. POST http://localhost:8000/identity/auth/introspect
    {
     "token": "akjpdaisp...."  
    }
-5. CRUD user:  POST http://localhost:8000/identity/users
+8.  POST http://localhost:8000/identity/users
    {
             "username": "taitai2",
             "password": "123456789",
@@ -35,17 +38,17 @@ password: admin
             "lastName": "aaaaaa",
             "dob": "1997-11-12"
    }  
-                DELETE http://localhost:8000/identity/users/{userId}
-                DELETE http://localhost:8000/identity/roles/{roleName}                                   
-                PUT    http://localhost:8000/identity/users/{userId}
+9.               DELETE http://localhost:8000/identity/users/{userId}
+10.                DELETE http://localhost:8000/identity/roles/{roleName}                                   
+11.                PUT    http://localhost:8000/identity/users/{userId}
    {
             "password": "admin",
             "firstName": "oOsaka",
             "lastName": "titan",
             "dob": "1991-11-12",
    }
-                GET  http://localhost:8000/identity/users
-                GET  http://localhost:8000/identity/users/{userId}
-                GET  http://localhost:8000/identity/users/myinfo
-                GET  http://localhost:8000/identity/roles
-                GET  http://localhost:8000/identity/permissions
+ 12.           GET  http://localhost:8000/identity/users
+ 13.           GET  http://localhost:8000/identity/users/{userId}
+ 14.           GET  http://localhost:8000/identity/users/myinfo
+ 15.           GET  http://localhost:8000/identity/roles
+ 16.           GET  http://localhost:8000/identity/permissions
